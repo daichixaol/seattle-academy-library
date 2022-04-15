@@ -42,6 +42,8 @@ public class AccountController {
      * @param model
      * @return　ホーム画面に遷移
      */
+    
+    
     @Transactional
     @RequestMapping(value = "/createAccount", method = RequestMethod.POST)
     public String createAccount(Locale locale,
@@ -58,6 +60,19 @@ public class AccountController {
 
         // TODO バリデーションチェック、パスワード一致チェック実装
 
+        boolean validPass = password.matches("^[a-zA-Z0-9]{8,}$");
+        
+        
+        if (!validPass) {
+        	model.addAttribute("validError","パスワードは半角英数8文字以上");
+        	return "createAccount";
+        } 
+        
+        if (!(password.equals(passwordForCheck))) {
+        	 model.addAttribute("passError","パスワードが一致しません");
+        	return "createAccount";
+        }
+        
         userInfo.setPassword(password);
         usersService.registUser(userInfo);
 
