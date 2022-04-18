@@ -47,10 +47,8 @@ public class UsersService {
 		System.out.println(sql);
 		try {
 			UserInfo selectedUserInfo = jdbcTemplate.queryForObject(sql, new UserCountRowMapper());
-				System.out.println("オッケー");
 			return selectedUserInfo;
 		} catch (Exception e) {
-			System.out.println("okay");
 			return null;
 
 		}
