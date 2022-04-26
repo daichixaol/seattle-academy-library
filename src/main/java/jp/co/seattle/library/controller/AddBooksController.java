@@ -95,18 +95,18 @@ public class AddBooksController {
         boolean validIsbn1 = isbn.matches("^[0-9]{10}$");
         boolean validIsbn2 = isbn.matches("^[0-9]{13}$");
         
-        if((validNecessary)) {
+        if(validNecessary) {
         	model.addAttribute("necessaryError","必須項目を入力してください");
         }
         
-        if (!(validDate)) {
+        if (!validDate) {
         	model.addAttribute("dateError","出版日は半角数字のYYYYMMDD形式で入力してください");
         }
-       if (!(validIsbn1) && !(validIsbn2)) {
+       if (!validIsbn1 && !validIsbn2) {
         	model.addAttribute("isbnError","ISBNの桁数または半角数字が正しくありません");	
         }
       
-       if((validNecessary) || !(validDate) || (!(validIsbn1) && !(validIsbn2))) {
+       if(validNecessary || !validDate || !validIsbn1 && !validIsbn2) {
     	   model.addAttribute("bookInfo",bookInfo);
     	  return "addBook";
        }
@@ -117,7 +117,7 @@ public class AddBooksController {
         model.addAttribute("resultMessage", "登録完了");
 
         // TODO 登録した書籍の詳細情報を表示するように実装
-        model.addAttribute("bookDetailsInfo",booksService.getBookInfo(booksService.MaxId()));
+        model.addAttribute("bookDetailsInfo",booksService.getBookInfo(booksService.maxId()));
        
         //  詳細画面に遷移する
         return "details";

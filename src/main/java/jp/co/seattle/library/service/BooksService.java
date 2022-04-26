@@ -69,7 +69,7 @@ public class BooksService {
                 + bookInfo.getIsbn() + "','"
                 + bookInfo.getExplanation() + "','"
                 + bookInfo.getThumbnailName() + "','"
-                + bookInfo.getThumbnailUrl() + "','"
+                + bookInfo.getThumbnailUrl() + "',"
                 + "now(),"
                 + "now())";
 
@@ -83,10 +83,17 @@ public class BooksService {
         jdbcTemplate.update(sql);
     }
     
-    public int MaxId() {
+    /**
+     * 書籍IDに紐づく書籍詳細情報を取得する
+     *
+     * @param maxId 最新の書籍ID
+     * @return 最新の書籍情報
+     */
+    
+    public int maxId() {
         String sql = "SELECT Max(id) FROM books";
-        int MaxId = jdbcTemplate.queryForObject(sql,int.class); 
-        return MaxId;
+        int maxId = jdbcTemplate.queryForObject(sql,int.class); 
+        return maxId;
        }
     
 }
