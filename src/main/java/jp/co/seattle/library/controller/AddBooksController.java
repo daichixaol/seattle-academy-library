@@ -52,6 +52,9 @@ public class AddBooksController {
             @RequestParam("title") String title,
             @RequestParam("author") String author,
             @RequestParam("publisher") String publisher,
+            @RequestParam("publishDate") String publish_date,
+            @RequestParam("isbn") String isbn,
+            @RequestParam("explanation") String explanation,
             @RequestParam("thumbnail") MultipartFile file,
             Model model) {
         logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
@@ -61,7 +64,9 @@ public class AddBooksController {
         bookInfo.setTitle(title);
         bookInfo.setAuthor(author);
         bookInfo.setPublisher(publisher);
-
+        bookInfo.setPublishDate(publish_date);
+        bookInfo.setIsbn(isbn);
+        bookInfo.setExplanation(explanation);
         // クライアントのファイルシステムにある元のファイル名を設定する
         String thumbnail = file.getOriginalFilename();
 
@@ -83,13 +88,37 @@ public class AddBooksController {
                 return "addBook";
             }
         }
-
+        
+ 
+        boolean validNecessary = (title.isEmpty() || author.isEmpty() || publisher.isEmpty() || publish_date.isEmpty());
+        boolean validDate = publish_date.matches("[0-9]{8}$");
+        boolean validIsbn1 = isbn.matches("^[0-9]{10}$");
+        boolean validIsbn2 = isbn.matches("^[0-9]{13}$");
+        
+        if(validNecessary) {
+        	model.addAttribute("necessaryError","必須項目を入力してください");
+        }
+        
+        if (!validDate) {
+        	model.addAttribute("dateError","出版日は半角数字のYYYYMMDD形式で入力してください");
+        }
+       if (!validIsbn1 && !validIsbn2) {
+        	model.addAttribute("isbnError","ISBNの桁数または半角数字が正しくありません");	
+        }
+      
+       if(validNecessary || !validDate || !validIsbn1 && !validIsbn2) {
+    	   model.addAttribute("bookInfo",bookInfo);
+    	  return "addBook";
+       }
+       
         // 書籍情報を新規登録する
         booksService.registBook(bookInfo);
 
         model.addAttribute("resultMessage", "登録完了");
 
         // TODO 登録した書籍の詳細情報を表示するように実装
+        model.addAttribute("bookDetailsInfo",booksService.getBookInfo(booksService.maxId()));
+       
         //  詳細画面に遷移する
         return "details";
     }

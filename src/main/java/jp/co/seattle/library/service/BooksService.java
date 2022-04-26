@@ -33,7 +33,7 @@ public class BooksService {
 
         // TODO 取得したい情報を取得するようにSQLを修正
         List<BookInfo> getedBookList = jdbcTemplate.query(
-                "SELECT id,title,author,publisher,publish_date,thumbnail_url FROM books order by title asc",
+                "SELECT id,title,author,publisher,publish_date,isbn,explanation,thumbnail_url FROM books order by title asc",
                 new BookInfoRowMapper());
 
         return getedBookList;
@@ -63,8 +63,11 @@ public class BooksService {
      */
     public void registBook(BookDetailsInfo bookInfo) {
 
-        String sql = "INSERT INTO books (title, author,publisher,thumbnail_name,thumbnail_url,reg_date,upd_date) VALUES ('"
+        String sql = "INSERT INTO books (title, author,publisher,publish_date,isbn,explanation,thumbnail_name,thumbnail_url,reg_date,upd_date) VALUES ('"
                 + bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','" 
+                + bookInfo.getPublishDate() + "','"
+                + bookInfo.getIsbn() + "','"
+                + bookInfo.getExplanation() + "','"
                 + bookInfo.getThumbnailName() + "','"
                 + bookInfo.getThumbnailUrl() + "',"
                 + "now(),"
@@ -79,5 +82,18 @@ public class BooksService {
 
         jdbcTemplate.update(sql);
     }
+    
+    /**
+     * 書籍IDに紐づく書籍詳細情報を取得する
+     *
+     * @param maxId 最新の書籍ID
+     * @return 最新の書籍情報
+     */
+    
+    public int maxId() {
+        String sql = "SELECT Max(id) FROM books";
+        int maxId = jdbcTemplate.queryForObject(sql,int.class); 
+        return maxId;
+       }
     
 }
