@@ -48,4 +48,5 @@ public class BookDetailsInfo {
         this.thumbnailName = thumbnailName;
     }
 
+
 }

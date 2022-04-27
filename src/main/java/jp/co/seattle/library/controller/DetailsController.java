@@ -40,7 +40,7 @@ public class DetailsController {
         logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
 
         model.addAttribute("bookDetailsInfo", bookdService.getBookInfo(bookId));
-
+        System.out.println(bookdService.getBookInfo(bookId));
         return "details";
     }
 }
