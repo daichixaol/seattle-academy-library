@@ -38,16 +38,21 @@ public class EditBookController {
     }
 
     /**
-     * 書籍情報を編集する
-     * @param locale ロケール情報
-     * @param title 書籍名
-     * @param author 著者名
-     * @param publisher 出版社
-     * @param file サムネイルファイル
-     * @param model モデル
-     * @param Id id
-     * @return 遷移先画面
-     */
+
+    書籍情報を更新する
+    @param locale ローケル情報
+    @param title 書籍名
+    @param author 著者名
+    @param publisher 出版社
+    @param publish_date 出版日
+    @param file サムネファイル
+    @palam model モデル
+    @param isbn コード
+    @param bio 説明文
+    @param id 書籍ID
+    @return 遷移先画面
+    */
+    
     @Transactional
     @RequestMapping(value = "/updateBook", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
     public String updateBook(Locale locale,

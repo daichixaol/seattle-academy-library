@@ -51,9 +51,7 @@ public class BooksService {
         // JSPに渡すデータを設定する
         String sql = "SELECT * FROM books where id ="
                 + bookId;
-        System.out.println(sql);
         BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
-        System.out.println(bookDetailsInfo.getBookId());
         return bookDetailsInfo;
     }
 
