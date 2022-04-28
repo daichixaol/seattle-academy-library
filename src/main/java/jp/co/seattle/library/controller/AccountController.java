@@ -40,7 +40,7 @@ public class AccountController {
      * @param password パスワード
      * @param passwordForCheck 確認用パスワード
      * @param model
-     * @return　ホーム画面に遷移
+     * @return ホーム画面に遷移
      */
     
     
