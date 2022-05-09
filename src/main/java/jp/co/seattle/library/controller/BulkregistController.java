@@ -96,7 +96,7 @@ public class BulkregistController {
 			}
 			
 			
-			if (listNe.isEmpty()) {
+			if (listNe.size() == 0) {
 				model.addAttribute("nodata","ファイルが空です。");
 				return "bulk";
 			}
