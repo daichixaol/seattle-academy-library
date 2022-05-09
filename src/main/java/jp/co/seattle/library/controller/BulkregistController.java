@@ -35,7 +35,11 @@ public class BulkregistController {
 
 	@Autowired
 	private ThumbnailService thumbnailService;
-
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/bulk", method = RequestMethod.GET) // value＝actionで指定したパラメータ
 	// RequestParamでname属性を取得
 	public String bulkregist(Model model) {
@@ -72,11 +76,7 @@ public class BulkregistController {
 				count++;
 				
 				BookDetailsInfo bookInfo = new BookDetailsInfo();
-				 bookInfo.setTitle(split[0]);
-			     bookInfo.setAuthor(split[1]);
-			     bookInfo.setPublisher(split[2]);
-			     bookInfo.setPublishDate(split[3]);
-			     bookInfo.setIsbn(split[4]);
+				
 				boolean validNecessary = (split[0].isEmpty() || split[1].isEmpty() || split[2].isEmpty()
 						|| split[3].isEmpty());
 				boolean validDate = split[3].matches("[0-9]{8}$");
@@ -87,8 +87,14 @@ public class BulkregistController {
 				if (validNecessary || !validDate || !validIsbn1 && !validIsbn2) {
 					listE.add(count + "行目の書籍登録でエラーが起きました。");
 				}
+				 bookInfo.setTitle(split[0]);
+			     bookInfo.setAuthor(split[1]);
+			     bookInfo.setPublisher(split[2]);
+			     bookInfo.setPublishDate(split[3]);
+			     bookInfo.setIsbn(split[4]);
 				listNe.add(bookInfo);	
 			}
+			
 			
 			if (listNe.isEmpty()) {
 				model.addAttribute("nodata","ファイルが空です。");
@@ -101,6 +107,7 @@ public class BulkregistController {
 			}
 			for (BookDetailsInfo bookInfo : listNe){
 				booksService.registBook(bookInfo);
+			
 			}
 				model.addAttribute("bookList", booksService.getBookList());
 				return "home";
