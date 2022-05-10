@@ -13,34 +13,44 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LentBooksService {
-    final static Logger logger = LoggerFactory.getLogger(BooksService.class);
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    
-    
-     /**
-      *   
-      * @param bookId
-      */
-    
-    public void lendBook(int bookId) {
+	final static Logger logger = LoggerFactory.getLogger(BooksService.class);
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-        String sql = "insert into lentbooks (bookid) select " + bookId + " where NOT EXISTS (select bookid from lentbooks where bookid=" + bookId + ")";
 
-        jdbcTemplate.update(sql);
-    }
-    
-    public int lentBooks() {
-    	String sql = "select count (bookid) from lentbooks";
-        int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
-        return lentBooks;
-    }
-    
-    public void returnBook(int bookId) {
+	/**
+	 *   
+	 * @param bookId
+	 */
 
-        String sql = "delete from lentbooks where bookid =" + bookId;
+	public void lendBook(int bookId) {
 
-        jdbcTemplate.update(sql);
-    }
-     
+		String sql = "insert into lentbooks (bookid) select " + bookId + " where NOT EXISTS (select bookid from lentbooks where bookid=" + bookId + ")";
+
+		jdbcTemplate.update(sql);
+	}
+
+	public int lentBooks() {
+		String sql = "select count (bookid) from lentbooks";
+		int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
+		return lentBooks;
+	}
+
+	public void returnBook(int bookId) {
+
+		String sql = "delete from lentbooks where bookid =" + bookId;
+
+		jdbcTemplate.update(sql);
+	}
+
+	public int deleteBookCheck(int bookId) {
+		try {
+			String sql = "select bookid from lentbooks where bookid =" + bookId;
+			int deleteCheck = jdbcTemplate.queryForObject(sql,int.class);
+			return deleteCheck;
+		}catch (Exception e) {
+			return 0;
+		}
+	}
+
 }    

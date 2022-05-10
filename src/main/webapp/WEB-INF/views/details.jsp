@@ -53,6 +53,11 @@
                 <p>${notLent}</p>
                 </div>
             </c:if>
+             <c:if test="${!empty lentDelete}">
+                <div class="error">
+                <p>${lentDelete}</p>
+                </div>
+             </c:if>
             </div>
             <div class="content_right">
                 <div>
