@@ -80,8 +80,8 @@ public class BulkregistController {
 				boolean validNecessary = (split[0].isEmpty() || split[1].isEmpty() || split[2].isEmpty()
 						|| split[3].isEmpty());
 				boolean validDate = split[3].matches("[0-9]{8}$");
-				boolean validIsbn1 = split[4].matches("^[0-9]{0,10}$");
-				boolean validIsbn2 = split[4].matches("^[0-9]{0,13}$");
+				boolean validIsbn1 = split[4].matches("^[0-9]{10}$|^[0-9]{0}$");
+				boolean validIsbn2 = split[4].matches("^[0-9]{13}$");
 
 
 				if (validNecessary || !validDate || !validIsbn1 && !validIsbn2) {
