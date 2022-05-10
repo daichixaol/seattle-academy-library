@@ -31,32 +31,31 @@
     </header>
     <main>
         <form action="<%=request.getContextPath()%>/bulkregistBook" method="post" enctype="multipart/form-data" id="data_upload_form">
-        <h1>一括登録</h1>
-        
-           <div class="bulk_form">
-                    <span>CSVファイルをアップロードすることで書籍を一括で登録できます。</span>
+            <h1>一括登録</h1>
+            <div class="bulk_form">
+                <span>CSVファイルをアップロードすることで書籍を一括で登録できます。</span>
                 <div class="caution">
-                    <p>「書籍名,著者名,出版社,出版日,ISBN」の形式で記載してください。</p>           
+                    <p>「書籍名,著者名,出版社,出版日,ISBN」の形式で記載してください。</p>
                     <p>※サムネイル画像は一括登録できません。編集画面で1冊単位で登録してください。</p>
-               </div>   
-            　   <input type="file" id="csvfile" name="csvfile" accept=".csv">
-            <div class="edtDelBookBtn_box">
-                <button type="submit" id="add-btn" class="btn_bulkRegist">一括登録</button>
+                </div>
+                <input type="file" id="csvfile" name="csvfile" accept=".csv">
+                <div class="edtDelBookBtn_box">
+                    <button type="submit" id="add-btn" class="btn_bulkRegist">一括登録</button>
+                </div>
+                <c:forEach var="listE" items="${listE}">
+                    <c:if test="${!empty listE}">
+                        <div class="error">
+                            <p>${listE}</p>
+                        </div>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${!empty nodata}">
+                    <div class="error">
+                        <p>${nodata}</p>
+                    </div>
+                </c:if>
             </div>
-            <c:forEach var="listE" items="${listE}">
-                    <c:if test="${!empty listE}"> 
-                     <div class ="error" >              
-                    <p>${listE}</p> 
-                     </div>  
-                     </c:if> 
-            </c:forEach>
-            　　　　<c:if test="${!empty nodata}">
-            <div class ="error">
-                  <p>${nodata}</p>                
-                </div>  
-                </c:if> 
-           </div>
-       </form>
-       </main>
-       </body>
-       </html>
+        </form>
+    </main>
+</body>
+</html>

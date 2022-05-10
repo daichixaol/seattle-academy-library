@@ -65,52 +65,52 @@ public class BulkregistController {
 
 		List<String> listE = new ArrayList<String>();
 		List<BookDetailsInfo> listNe = new ArrayList<BookDetailsInfo>();
-		
+
 		try (BufferedReader br = new BufferedReader(
 				new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
 			String line = "";
 			int count = 0;
 			while ((line = br.readLine()) != null) {
-				
+
 				final String[] split = line.split(",", -1);
 				count++;
-				
+
 				BookDetailsInfo bookInfo = new BookDetailsInfo();
-				
+
 				boolean validNecessary = (split[0].isEmpty() || split[1].isEmpty() || split[2].isEmpty()
 						|| split[3].isEmpty());
 				boolean validDate = split[3].matches("[0-9]{8}$");
-				boolean validIsbn1 = split[4].matches("^[0-9]{10}$");
-				boolean validIsbn2 = split[4].matches("^[0-9]{13}$");
-				
-				
+				boolean validIsbn1 = split[4].matches("^[0-9]{0,10}$");
+				boolean validIsbn2 = split[4].matches("^[0-9]{0,13}$");
+
+
 				if (validNecessary || !validDate || !validIsbn1 && !validIsbn2) {
 					listE.add(count + "行目の書籍登録でエラーが起きました。");
 				}
-				 bookInfo.setTitle(split[0]);
-			     bookInfo.setAuthor(split[1]);
-			     bookInfo.setPublisher(split[2]);
-			     bookInfo.setPublishDate(split[3]);
-			     bookInfo.setIsbn(split[4]);
+				bookInfo.setTitle(split[0]);
+				bookInfo.setAuthor(split[1]);
+				bookInfo.setPublisher(split[2]);
+				bookInfo.setPublishDate(split[3]);
+				bookInfo.setIsbn(split[4]);
 				listNe.add(bookInfo);	
 			}
-			
-			
+
+
 			if (listNe.size() == 0) {
 				model.addAttribute("nodata","ファイルが空です。");
 				return "bulk";
 			}
-			
+
 			if (listE.size()>0) {
 				model.addAttribute("listE",listE);
 				return "bulk";
 			}
 			for (BookDetailsInfo bookInfo : listNe){
 				booksService.registBook(bookInfo);
-			
+
 			}
-				model.addAttribute("bookList", booksService.getBookList());
-				return "home";
+			model.addAttribute("bookList", booksService.getBookList());
+			return "home";
 		}
 	}
 }
