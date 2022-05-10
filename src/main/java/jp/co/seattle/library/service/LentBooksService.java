@@ -13,27 +13,33 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LentBooksService {
-    final static Logger logger = LoggerFactory.getLogger(BooksService.class);
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    
-    
-     /**
-      *   
-      * @param bookId
-      */
-    
-    public void lendBook(int bookId) {
+	final static Logger logger = LoggerFactory.getLogger(BooksService.class);
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-        String sql = "insert into lentbooks (bookid) select " + bookId + " where NOT EXISTS (select bookid from lentbooks where bookid=" + bookId + ")";
 
-        jdbcTemplate.update(sql);
-    }
-    
-    public int lentBooks() {
-    	String sql = "select count (bookid) from lentbooks";
-        int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
-        return lentBooks;
-    }
-     
+	/**
+	 *   
+	 * @param bookId
+	 */
+
+	public void lendBook(int bookId) {
+
+		String sql = "insert into lentbooks (bookid) select " + bookId + " where NOT EXISTS (select bookid from lentbooks where bookid=" + bookId + ")";
+
+		jdbcTemplate.update(sql);
+	}
+
+
+	/**
+	 * 
+	 * @return
+	 */
+
+	public int lentBooks() {
+		String sql = "select count (bookid) from lentbooks";
+		int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
+		return lentBooks;
+	}
+
 }    
