@@ -48,6 +48,11 @@
                 <p>${alreadyLent}</p>
                 </div>
               </c:if>
+             <c:if test="${!empty notLent}">
+                <div class="error">
+                <p>${notLent}</p>
+                </div>
+            </c:if>
             </div>
             <div class="content_right">
                 <div>

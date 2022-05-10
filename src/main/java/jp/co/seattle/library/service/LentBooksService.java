@@ -35,5 +35,12 @@ public class LentBooksService {
         int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
         return lentBooks;
     }
+    
+    public void returnBook(int bookId) {
+
+        String sql = "delete from lentbooks where bookid =" + bookId;
+
+        jdbcTemplate.update(sql);
+    }
      
 }    
