@@ -16,6 +16,7 @@ public class BookDetailsInfoRowMapper implements RowMapper<BookDetailsInfo> {
 		// Query結果（ResultSet rs）を、オブジェクトに格納する実装
 		BookDetailsInfo bookDetailsInfo = new BookDetailsInfo();
 		bookDetailsInfo.setBookId(rs.getInt("id"));
+		bookDetailsInfo.setLentbookId(rs.getInt("bookid"));
 		bookDetailsInfo.setTitle(rs.getString("title"));
 		bookDetailsInfo.setAuthor(rs.getString("author"));
 		bookDetailsInfo.setPublisher(rs.getString("publisher"));
