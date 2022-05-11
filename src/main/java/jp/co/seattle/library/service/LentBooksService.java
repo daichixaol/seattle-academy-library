@@ -30,13 +30,20 @@ public class LentBooksService {
 
 		jdbcTemplate.update(sql);
 	}
-
+	/**
+	 * 
+	 * @return lentBooks
+	 */
 	public int lentBooks() {
 		String sql = "select count (bookid) from lentbooks";
 		int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
 		return lentBooks;
 	}
-
+	
+	/**
+	 * 
+	 * @param bookId
+	 */
 	public void returnBook(int bookId) {
 
 		String sql = "delete from lentbooks where bookid =" + bookId;

@@ -20,42 +20,42 @@ import jp.co.seattle.library.service.LentBooksService;
  */
 @Controller //APIの入り口
 public class ReturnBookController {
-    final static Logger logger = LoggerFactory.getLogger(ReturnBookController.class);
-    @Autowired
-    private LentBooksService lentbooksService;
-    @Autowired
-    private BooksService booksService;
-    /**
-     * 対象書籍を貸し出しする
-     *
-     * @param locale ロケール情報
-     * @param bookId 書籍ID
-     * @param model モデル情報
-     * @return 遷移先画面名
-     */
-    @Transactional
-    @RequestMapping(value = "/returnBook", method = RequestMethod.POST)
-    public String returnBook(
-            Locale locale,
-            @RequestParam("bookId") Integer bookId,
-            Model model) {
+	final static Logger logger = LoggerFactory.getLogger(ReturnBookController.class);
+	@Autowired
+	private LentBooksService lentbooksService;
+	@Autowired
+	private BooksService booksService;
+	/**
+	 * 対象書籍を貸し出しする
+	 *
+	 * @param locale ロケール情報
+	 * @param bookId 書籍ID
+	 * @param model モデル情報
+	 * @return 遷移先画面名
+	 */
+	@Transactional
+	@RequestMapping(value = "/returnBook", method = RequestMethod.POST)
+	public String returnBook(
+			Locale locale,
+			@RequestParam("bookId") Integer bookId,
+			Model model) {
 
- 
-    	logger.info("Welcome lent! The client locale is {}.", locale);  
-    	
-    int lentcheck1 = lentbooksService.lentBooks();
-    	
-          lentbooksService.returnBook(bookId);
-         model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
-         
-          int lentcheck2 = lentbooksService.lentBooks();      
-         
-        if(lentcheck1 == lentcheck2){
-       	model.addAttribute("notLent","貸出しされていません。");
-        	}
 
-        return "details";
+		logger.info("Welcome lent! The client locale is {}.", locale);  
 
-    }
+		int beforelent = lentbooksService.lentBooks();
+
+		lentbooksService.returnBook(bookId);
+		model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
+
+		int afterlent = lentbooksService.lentBooks();      
+
+		if(beforelent == afterlent){
+			model.addAttribute("notLent","貸出しされていません。");
+		}
+
+		return "details";
+
+	}
 
 }
