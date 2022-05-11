@@ -20,101 +20,101 @@ import jp.co.seattle.library.rowMapper.BookInfoRowMapper;
  */
 @Service
 public class BooksService {
-    final static Logger logger = LoggerFactory.getLogger(BooksService.class);
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	final static Logger logger = LoggerFactory.getLogger(BooksService.class);
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    /**
-     * 書籍リストを取得する
-     *
-     * @return 書籍リスト
-     */
-    public List<BookInfo> getBookList() {
+	/**
+	 * 書籍リストを取得する
+	 *
+	 * @return 書籍リスト
+	 */
+	public List<BookInfo> getBookList() {
 
-        // TODO 取得したい情報を取得するようにSQLを修正
-        List<BookInfo> getedBookList = jdbcTemplate.query(
-                "SELECT id,title,author,publisher,publish_date,isbn,explanation,thumbnail_url FROM books order by title asc",
-                new BookInfoRowMapper());
+		// TODO 取得したい情報を取得するようにSQLを修正
+		List<BookInfo> getedBookList = jdbcTemplate.query(
+				"SELECT id,title,author,publisher,publish_date,isbn,explanation,thumbnail_url FROM books order by title asc",
+				new BookInfoRowMapper());
 
-        return getedBookList;
-    }
+		return getedBookList;
+	}
 
-    
-    /**
-     * 書籍IDに紐づく書籍詳細情報を取得する
-     *
-     * @param bookId 書籍ID
-     * @return 書籍情報
-     */
-    public BookDetailsInfo getBookInfo(int bookId) {
 
-        // JSPに渡すデータを設定する
-        String sql = "SELECT * FROM books where id ="
-                + bookId;
-        BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
-        return bookDetailsInfo;
-    }
+	/**
+	 * 書籍IDに紐づく書籍詳細情報を取得する
+	 *
+	 * @param bookId 書籍ID
+	 * @return 書籍情報
+	 */
+	public BookDetailsInfo getBookInfo(int bookId) {
 
-    /**
-     * 書籍を登録する
-     *
-     * @param bookInfo 書籍情報
-     */
-    public void registBook(BookDetailsInfo bookInfo) {
+		// JSPに渡すデータを設定する
+		String sql = "SELECT * FROM books where id ="
+				+ bookId;
+		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
+		return bookDetailsInfo;
+	}
 
-        String sql = "INSERT INTO books (title, author,publisher,publish_date,isbn,explanation,thumbnail_name,thumbnail_url,reg_date,upd_date) VALUES ('"
-                + bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','" 
-                + bookInfo.getPublishDate() + "','"
-                + bookInfo.getIsbn() + "','"
-                + bookInfo.getExplanation() + "','"
-                + bookInfo.getThumbnailName() + "','"
-                + bookInfo.getThumbnailUrl() + "',"
-                + "now(),"
-                + "now())";
+	/**
+	 * 書籍を登録する
+	 *
+	 * @param bookInfo 書籍情報
+	 */
+	public void registBook(BookDetailsInfo bookInfo) {
 
-        jdbcTemplate.update(sql);
-    }
-    
-    public void deleteBook(int bookId) {
+		String sql = "INSERT INTO books (title, author,publisher,publish_date,isbn,explanation,thumbnail_name,thumbnail_url,reg_date,upd_date) VALUES ('"
+				+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','" 
+				+ bookInfo.getPublishDate() + "','"
+				+ bookInfo.getIsbn() + "','"
+				+ bookInfo.getExplanation() + "','"
+				+ bookInfo.getThumbnailName() + "','"
+				+ bookInfo.getThumbnailUrl() + "',"
+				+ "now(),"
+				+ "now())";
 
-        String sql = "DELETE FROM books WHERE id = " + bookId ;
+		jdbcTemplate.update(sql);
+	}
 
-        jdbcTemplate.update(sql);
-    }
+	public void deleteBook(int bookId) {
 
-    /**
-     * 書籍IDに紐づく書籍詳細情報を取得する
-     *
-     * @param maxId 最新の書籍ID
-     * @return 最新の書籍情報
-     */
-    
-    public int maxId() {
-        String sql = "SELECT Max(id) FROM books";
-        int maxId = jdbcTemplate.queryForObject(sql,int.class); 
-        return maxId;
-       }
-    
-    /**
-     * 書籍IDに紐づく書籍情報編集
-     *
-     * @param bookInfo.getBookId();選択された書籍ID
-     * @return 選択された書籍情報
-     */
-    
-    public void editBook(BookDetailsInfo bookInfo) {
+		String sql = "DELETE FROM books WHERE id = " + bookId ;
+
+		jdbcTemplate.update(sql);
+	}
+
+	/**
+	 * 書籍IDに紐づく書籍詳細情報を取得する
+	 *
+	 * @param maxId 最新の書籍ID
+	 * @return 最新の書籍情報
+	 */
+
+	public int maxId() {
+		String sql = "SELECT Max(id) FROM books";
+		int maxId = jdbcTemplate.queryForObject(sql,int.class); 
+		return maxId;
+	}
+
+	/**
+	 * 書籍IDに紐づく書籍情報編集
+	 *
+	 * @param bookInfo.getBookId();選択された書籍ID
+	 * @return 選択された書籍情報
+	 */
+
+	public void editBook(BookDetailsInfo bookInfo) {
 
 		String sql = "UPDATE books SET title ='"+ bookInfo.getTitle()
-									+ "',author ='"+ bookInfo.getAuthor()
-									+"',publisher ='"+ bookInfo.getPublisher()
-									+"',thumbnail_name ='"+ bookInfo.getThumbnailName()
-									+"',publish_date ='"+ bookInfo.getPublishDate()																		 
-									+"',isbn ='"+ bookInfo.getIsbn() 
-									+"',explanation ='"+ bookInfo.getExplanation() 
-									+"',thumbnail_url ='"+ bookInfo.getThumbnailUrl() 
-									+"',upd_date = now() WHERE Id ="+ bookInfo.getBookId();
-					jdbcTemplate.update(sql);
-    
-}
-    
+		+ "',author ='"+ bookInfo.getAuthor()
+		+"',publisher ='"+ bookInfo.getPublisher()
+		+"',thumbnail_name ='"+ bookInfo.getThumbnailName()
+		+"',publish_date ='"+ bookInfo.getPublishDate()																		 
+		+"',isbn ='"+ bookInfo.getIsbn() 
+		+"',explanation ='"+ bookInfo.getExplanation() 
+		+"',thumbnail_url ='"+ bookInfo.getThumbnailUrl() 
+		+"',upd_date = now() WHERE Id ="+ bookInfo.getBookId();
+		jdbcTemplate.update(sql);
+
+	}
+
 }
