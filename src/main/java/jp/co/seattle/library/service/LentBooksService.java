@@ -21,7 +21,7 @@ public class LentBooksService {
 
 	/**
 	 *   
-	 * @param bookId
+	 * @param bookId　書籍ID
 	 */
 
 	public void lendBook(int bookId) {
@@ -32,7 +32,7 @@ public class LentBooksService {
 	}
 	/**
 	 * 
-	 * @return lentBooks
+	 * @return lentBooks　遷移先画面
 	 */
 	public int lentBooks() {
 		String sql = "select count (bookid) from lentbooks";
@@ -42,7 +42,7 @@ public class LentBooksService {
 	
 	/**
 	 * 
-	 * @param bookId
+	 * @param bookId　書籍ID
 	 */
 	public void returnBook(int bookId) {
 
