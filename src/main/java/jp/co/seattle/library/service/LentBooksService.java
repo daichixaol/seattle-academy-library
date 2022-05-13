@@ -20,7 +20,8 @@ public class LentBooksService {
 
 
 	/**
-	 *   
+	 * 書籍を貸し出しテーブルに追加する
+	 * 
 	 * @param bookId　書籍ID
 	 */
 
@@ -31,6 +32,7 @@ public class LentBooksService {
 		jdbcTemplate.update(sql);
 	}
 	/**
+	 * 貸し出し中の書籍の数を数える
 	 * 
 	 * @return lentBooks　遷移先画面
 	 */
@@ -41,6 +43,7 @@ public class LentBooksService {
 	}
 	
 	/**
+	 * 書籍を返却し、貸し出しテーブルから削除する
 	 * 
 	 * @param bookId　書籍ID
 	 */
