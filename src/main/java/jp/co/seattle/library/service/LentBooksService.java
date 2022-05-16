@@ -31,27 +31,40 @@ public class LentBooksService {
 
 		jdbcTemplate.update(sql);
 	}
+
 	/**
 	 * 貸し出し中の書籍の数を数える
 	 * 
 	 * @return lentBooks　遷移先画面
 	 */
+
 	public int lentBooks() {
 		String sql = "select count (bookid) from lentbooks";
 		int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
 		return lentBooks;
 	}
-	
+
 	/**
 	 * 書籍を返却し、貸し出しテーブルから削除する
 	 * 
 	 * @param bookId　書籍ID
 	 */
+
 	public void returnBook(int bookId) {
 
 		String sql = "delete from lentbooks where bookid =" + bookId;
 
 		jdbcTemplate.update(sql);
+	}
+
+	public int deleteBookCheck(int bookId) {
+		try {
+			String sql = "select bookid from lentbooks where bookid =" + bookId;
+			int deleteCheck = jdbcTemplate.queryForObject(sql,int.class);
+			return deleteCheck;
+		}catch (Exception e) {
+			return 0;
+		}
 	}
 
 

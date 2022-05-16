@@ -40,6 +40,7 @@ public class LendBookController {
 			@RequestParam("bookId") Integer bookId,
 			Model model) {
 
+
 		logger.info("Welcome lent! The client locale is {}.", locale);  
 		//既に借りている書籍の数を確認
 		int beforelent = lentbooksService.lentBooks();
@@ -51,6 +52,7 @@ public class LendBookController {
 
 		if(beforelent == afterlent){
 			model.addAttribute("alreadyLent","貸出済みです。");
+
 		}
 
 

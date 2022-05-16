@@ -39,16 +39,14 @@
                     </div>
                     <input type="file" accept="image/*" name="thumbnail" id="thumbnail">
                 </div>
-                          
                 <div class="content_right">
-                
-                <c:if test="${!empty necessaryError || !empty dateError || !empty isbnError}">
-                    <div class ="error" >
-                    <p>${necessaryError}</p> 
-                   <p>${dateError}</p>
-                   <p>${isbnError}</p>
-                  </div> 
-                  </c:if>   
+                    <c:if test="${!empty necessaryError || !empty dateError || !empty isbnError}">
+                        <div class="error">
+                            <p>${necessaryError}</p>
+                            <p>${dateError}</p>
+                            <p>${isbnError}</p>
+                        </div>
+                    </c:if>
                     <div>
                         <span>書籍名</span><span class="care care2">必須</span>
                         <c:if test="${!empty bookInfo}">
