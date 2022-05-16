@@ -38,7 +38,22 @@ public class BooksService {
 
 		return getedBookList;
 	}
+	
+	/**
+	 * 検索に部分一致した書籍のリストを取得する
+	 * 
+	 * @param title 書籍名
+	 * @return 書籍リスト
+	 */
+	public List<BookInfo> searchBook(String title) {
 
+		// TODO 取得したい情報を取得するようにSQLを修正
+		List<BookInfo> getedBookList = jdbcTemplate.query(
+				"SELECT id,title,author,publisher,publish_date,isbn,explanation,thumbnail_url FROM books where title like '%"+ title +"%' order by title asc",
+				new BookInfoRowMapper());
+
+		return getedBookList;
+	}
 
 	/**
 	 * 書籍IDに紐づく書籍詳細情報を取得する
@@ -49,7 +64,7 @@ public class BooksService {
 	public BookDetailsInfo getBookInfo(int bookId) {
 
 		// JSPに渡すデータを設定する
-		String sql = "select * from books left outer join lentbooks on books.id = lentbooks.bookid where books.id =" + bookId;
+		String sql = "select * from books left outer join lentbooks on books.id = lentbooks.bookid where books.id ="+ bookId;
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 		return bookDetailsInfo;
 	}

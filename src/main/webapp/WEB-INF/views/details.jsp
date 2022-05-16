@@ -43,10 +43,10 @@
                     </a>
                 </div>
                 <c:if test="${bookDetailsInfo.lentbookId == 0}">
-                        <span>貸し出し可</span>
+                    <span>貸し出し可</span>
                 </c:if>
                 <c:if test="${bookDetailsInfo.lentbookId != 0}">
-                        <span>貸し出し中</span>
+                    <span>貸し出し中</span>
                 </c:if>
                 <c:if test="${!empty alreadyLent}">
                     <div class="error">
