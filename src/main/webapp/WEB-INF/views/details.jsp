@@ -42,11 +42,16 @@
                         </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
                     </a>
                 </div>
-                <c:if test="${!empty alreadyLent}">
-                    <div class="error">
-                        <p>${alreadyLent}</p>
-                    </div>
-                </c:if>
+                 <c:if test="${!empty alreadyLent}">
+                <div class="error">
+                <p>${alreadyLent}</p>
+                </div>
+              </c:if>
+             <c:if test="${!empty notLent}">
+                <div class="error">
+                <p>${notLent}</p>
+                </div>
+            </c:if>
             </div>
             <div class="content_right">
                 <div>

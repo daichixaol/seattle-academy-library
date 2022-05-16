@@ -16,11 +16,11 @@ import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.LentBooksService;
 
 /**
- * 貸し出しコントローラー
+ * 削除コントローラー
  */
 @Controller //APIの入り口
-public class LendBookController {
-	final static Logger logger = LoggerFactory.getLogger(LendBookController.class);
+public class ReturnBookController {
+	final static Logger logger = LoggerFactory.getLogger(ReturnBookController.class);
 	@Autowired
 	private LentBooksService lentbooksService;
 	@Autowired
@@ -34,27 +34,25 @@ public class LendBookController {
 	 * @return 遷移先画面名
 	 */
 	@Transactional
-	@RequestMapping(value = "/rentBook", method = RequestMethod.POST)
-	public String lendBook(
+	@RequestMapping(value = "/returnBook", method = RequestMethod.POST)
+	public String returnBook(
 			Locale locale,
 			@RequestParam("bookId") Integer bookId,
 			Model model) {
 
+
 		logger.info("Welcome lent! The client locale is {}.", locale);  
-		//既に借りている書籍の数を確認
+
 		int beforelent = lentbooksService.lentBooks();
 
-		lentbooksService.lendBook(bookId);
+		lentbooksService.returnBook(bookId);
 		model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
-		//借りるボタンを押した後に借りている書籍の数を確認
+
 		int afterlent = lentbooksService.lentBooks();      
 
 		if(beforelent == afterlent){
-			model.addAttribute("alreadyLent","貸出済みです。");
+			model.addAttribute("notLent","貸出しされていません。");
 		}
-
-
-
 
 		return "details";
 
