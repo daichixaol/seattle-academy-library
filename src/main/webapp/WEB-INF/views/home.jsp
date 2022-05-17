@@ -26,11 +26,19 @@
     </header>
     <main>
         <h1>Home</h1>
-        <form method="post" action="searchBook">
-            <input type="text" name="title" class=search1>
-            <button type="submit" name="serch_title" class="search_box">検索</button>
-        </form>
-        <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a>
+        <div class="addandsearch">
+            <div class=add>
+                <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a>
+            </div>
+            <div class=search>
+                <form method="post" action="searchBook">
+                <div class=searchbutton>
+                    <input type="text" name="title" class=search1>
+                    <button type="submit" name="serch_title" class="search_box">検索</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="content_body">
             <c:if test="${!empty resultMessage}">
                 <div class="error_msg">${resultMessage}</div>

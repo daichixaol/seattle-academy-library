@@ -65,6 +65,30 @@ input {
 }
 
 /* ここから追加 */
+
+/*親(追加、検索)*/
+.addandsearch{
+	display: flex;
+	justify-content: flex-end;	
+}
+
+/*子(追加、一括追加)*/
+.add{
+	display: inline;
+	margin-right: auto;	
+}
+
+/*子(検索欄、検索ボタン)*/
+.search{
+	display: inline;
+	display: flex;
+	justify-content: flex-end;	
+}
+
+.searchbutton{
+	display: flex;
+}
+
 .search_box {
     position: relative;
     margin-left: -5px;
@@ -73,7 +97,7 @@ input {
 .search1 {
     border-radius: 20px 0 0 20px;
     font-size: 15px;
-    width: 325px;
+    width: 200px;
     padding: 4px 10px;
     border: 1px solid #2196f3;
 }
