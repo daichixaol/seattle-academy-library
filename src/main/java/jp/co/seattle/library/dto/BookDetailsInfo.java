@@ -12,41 +12,47 @@ import lombok.Data;
 @Data
 public class BookDetailsInfo {
 
-    private int bookId;
+	private int bookId;
 
-    private String title;
+	private int lentbookId;
 
-    private String author;
+	private String title;
 
-    private String publisher;
-    
-    private String publishDate;
-    
-    private String isbn;
-    
-    private String explanation;
+	private String author;
 
-    private String thumbnailUrl;
+	private String publisher;
 
-    private String thumbnailName;
+	private String publishDate;
 
-    public BookDetailsInfo() {
+	private String isbn;
 
-    }
+	private String explanation;
 
-    public BookDetailsInfo(int bookId, String title, String author, String publisher,
-            String publishDate,String isbn,String explanation,
-            String thumbnailUrl, String thumbnailName) {
-        this.bookId = bookId;
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-        this.publishDate = publishDate;
-        this.isbn = isbn;
-        this.explanation = explanation;
-        this.thumbnailUrl = thumbnailUrl;
-        this.thumbnailName = thumbnailName;
-    }
+	private String thumbnailUrl;
+
+	private String thumbnailName;
+	
+	private String status;
+
+	public BookDetailsInfo() {
+
+	}
+
+	public BookDetailsInfo(int bookId,int lentbookId,String title, String author, String publisher,
+			String publishDate,String isbn,String explanation,
+			String thumbnailUrl, String thumbnailName, String status) {
+		this.bookId = bookId;
+		this.lentbookId = lentbookId;
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.publishDate = publishDate;
+		this.isbn = isbn;
+		this.explanation = explanation;
+		this.thumbnailUrl = thumbnailUrl;
+		this.thumbnailName = thumbnailName;
+		this.status = status;
+	}
 
 
 }
