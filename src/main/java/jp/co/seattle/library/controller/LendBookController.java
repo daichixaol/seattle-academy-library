@@ -42,11 +42,13 @@ public class LendBookController {
 
 
 		logger.info("Welcome lent! The client locale is {}.", locale);  
+
 		//既に借りている書籍の数を確認
 		int beforelent = lentbooksService.lentBooks();
 
 		lentbooksService.lendBook(bookId);
 		model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
+
 		//借りるボタンを押した後に借りている書籍の数を確認
 		int afterlent = lentbooksService.lentBooks();      
 
@@ -54,9 +56,6 @@ public class LendBookController {
 			model.addAttribute("alreadyLent","貸出済みです。");
 
 		}
-
-
-
 
 		return "details";
 

@@ -33,9 +33,9 @@ public class LentBooksService {
 	}
 
 	/**
-	 * 貸し出し中の書籍の数を数える
+	 * 貸し出しテーブルの書籍数を数える
 	 * 
-	 * @return lentBooks　遷移先画面
+	 * @return 貸した書籍数
 	 */
 
 	public int lentBooks() {
@@ -45,9 +45,9 @@ public class LentBooksService {
 	}
 
 	/**
-	 * 書籍を返却し、貸し出しテーブルから削除する
+	 * 返却した書籍を貸し出しテーブルから削除
 	 * 
-	 * @param bookId　書籍ID
+	 * @param bookId 書籍ID
 	 */
 
 	public void returnBook(int bookId) {
@@ -56,6 +56,13 @@ public class LentBooksService {
 
 		jdbcTemplate.update(sql);
 	}
+
+	/**
+	 * 貸し出し中の書籍は削除できないようにする
+	 * 
+	 * @param bookId 書籍ID
+	 * @return 書籍を削除したか確認
+	 */
 
 	public int deleteBookCheck(int bookId) {
 		try {
@@ -66,6 +73,5 @@ public class LentBooksService {
 			return 0;
 		}
 	}
-
 
 }    
