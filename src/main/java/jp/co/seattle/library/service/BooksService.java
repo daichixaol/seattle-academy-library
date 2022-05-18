@@ -38,7 +38,7 @@ public class BooksService {
 
 		return getedBookList;
 	}
-	
+
 	/**
 	 * 検索に部分一致した書籍のリストを取得する
 	 * 
@@ -64,7 +64,8 @@ public class BooksService {
 	public BookDetailsInfo getBookInfo(int bookId) {
 
 		// JSPに渡すデータを設定する
-		String sql = "select * from books left outer join lentbooks on books.id = lentbooks.bookid where books.id ="+ bookId;
+
+		String sql = "SELECT *,CASE WHEN lentid IS NULL THEN '貸し出し可' ELSE '貸し出し中' END AS status FROM books left outer join lentbooks on books.id = lentbooks.bookid where books.id ="+ bookId;
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 		return bookDetailsInfo;
 	}

@@ -13,15 +13,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LentBooksService {
+
 	final static Logger logger = LoggerFactory.getLogger(BooksService.class);
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 
 	/**
-	 *  貸し出しテーブルに書籍を追加
-	 *  
-	 * @param bookId 書籍ID
+	 * 書籍を貸し出しテーブルに追加する
+	 * 
+	 * @param bookId　書籍ID
 	 */
 
 	public void lendBook(int bookId) {
@@ -36,7 +37,7 @@ public class LentBooksService {
 	 * 
 	 * @return 貸した書籍数
 	 */
-	
+
 	public int lentBooks() {
 		String sql = "select count (bookid) from lentbooks";
 		int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
@@ -48,7 +49,7 @@ public class LentBooksService {
 	 * 
 	 * @param bookId 書籍ID
 	 */
-	
+
 	public void returnBook(int bookId) {
 
 		String sql = "delete from lentbooks where bookid =" + bookId;
@@ -62,7 +63,7 @@ public class LentBooksService {
 	 * @param bookId 書籍ID
 	 * @return 書籍を削除したか確認
 	 */
-	
+
 	public int deleteBookCheck(int bookId) {
 		try {
 			String sql = "select bookid from lentbooks where bookid =" + bookId;
