@@ -19,8 +19,9 @@ public class LentBooksService {
 
 
 	/**
-	 *   
-	 * @param bookId
+	 *  貸し出しテーブルに書籍を追加
+	 *  
+	 * @param bookId 書籍ID
 	 */
 
 	public void lendBook(int bookId) {
@@ -30,12 +31,24 @@ public class LentBooksService {
 		jdbcTemplate.update(sql);
 	}
 
+	/**
+	 * 貸し出しテーブルの書籍数を数える
+	 * 
+	 * @return 貸した書籍数
+	 */
+	
 	public int lentBooks() {
 		String sql = "select count (bookid) from lentbooks";
 		int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
 		return lentBooks;
 	}
 
+	/**
+	 * 返却した書籍を貸し出しテーブルから削除
+	 * 
+	 * @param bookId 書籍ID
+	 */
+	
 	public void returnBook(int bookId) {
 
 		String sql = "delete from lentbooks where bookid =" + bookId;
@@ -43,6 +56,13 @@ public class LentBooksService {
 		jdbcTemplate.update(sql);
 	}
 
+	/**
+	 * 貸し出し中の書籍は削除できないようにする
+	 * 
+	 * @param bookId 書籍ID
+	 * @return 書籍を削除したか確認
+	 */
+	
 	public int deleteBookCheck(int bookId) {
 		try {
 			String sql = "select bookid from lentbooks where bookid =" + bookId;

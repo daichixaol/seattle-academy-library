@@ -16,7 +16,7 @@ import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.LentBooksService;
 
 /**
- * 削除コントローラー
+ * 貸し出しコントローラー
  */
 @Controller //APIの入り口
 public class LendBookController {
@@ -43,15 +43,19 @@ public class LendBookController {
 
 		logger.info("Welcome lent! The client locale is {}.", locale);  
 
+		//既に借りている書籍の数を確認
 		int lentcheck1 = lentbooksService.lentBooks();
 
 		lentbooksService.lendBook(bookId);
 		model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
+      
 
+		//借りるボタンを押した後に借りている書籍の数を確認
 		int lentcheck2 = lentbooksService.lentBooks();      
 
 		if(lentcheck1 == lentcheck2){
-			model.addAttribute("alreadyLent","貸出し済みです。");
+			model.addAttribute("alreadyLent","貸出済みです。");
+
 		}
 
 
