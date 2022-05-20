@@ -26,7 +26,7 @@ public class BookInfo {
     private String explanation;
 
     private String thumbnail;
-
+    
     public BookInfo() {
 
     }

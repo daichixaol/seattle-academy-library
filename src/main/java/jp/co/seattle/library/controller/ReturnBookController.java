@@ -16,7 +16,7 @@ import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.LentBooksService;
 
 /**
- * 削除コントローラー
+ * 返却コントローラー
  */
 @Controller //APIの入り口
 public class ReturnBookController {
@@ -26,7 +26,7 @@ public class ReturnBookController {
 	@Autowired
 	private BooksService booksService;
 	/**
-	 * 対象書籍を貸し出しする
+	 * 対象書籍を返却する
 	 *
 	 * @param locale ロケール情報
 	 * @param bookId 書籍ID
@@ -42,17 +42,27 @@ public class ReturnBookController {
 
 
 		logger.info("Welcome lent! The client locale is {}.", locale);  
-
-		int beforelent = lentbooksService.lentBooks();
-
-		lentbooksService.returnBook(bookId);
-		model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
-
-		int afterlent = lentbooksService.lentBooks();      
-
-		if(beforelent == afterlent){
+		
+		int lentSecondCheck = lentbooksService.lentSecondCheck(bookId);
+		
+		if (lentSecondCheck > 0) {
+			lentbooksService.updateReturn(bookId);
+		}else if (lentSecondCheck == 0){
 			model.addAttribute("notLent","貸出しされていません。");
 		}
+		
+		
+		
+		//int beforelent = lentbooksService.lentBooks();
+
+		//lentbooksService.returnBook(bookId);
+		model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
+
+		//int afterlent = lentbooksService.lentBooks();      
+
+		//if(beforelent == afterlent){
+			
+		//}
 
 		return "details";
 

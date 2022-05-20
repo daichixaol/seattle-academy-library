@@ -30,6 +30,7 @@
             <div class=add>
                 <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a>
                 <a href="<%=request.getContextPath()%>/bulk" class="btn_bulk_book">一括登録</a>
+                <a href="<%=request.getContextPath()%>/history" class="btn_bulk_book">貸出履歴一覧</a>
             </div>
             <div class=search>
                 <form method="post" action="searchBook">

@@ -46,6 +46,7 @@ public class DeleteBookController {
 		
 		if(deleteCheck == 0) {
 			booksService.deleteBook(bookId);
+			booksService.deleteHistory(bookId);
 		}else {
 			model.addAttribute("lentDelete","貸し出し中です。");
 			model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));

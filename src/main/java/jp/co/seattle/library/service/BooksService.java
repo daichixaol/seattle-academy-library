@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.dto.BookInfo;
+import jp.co.seattle.library.dto.HistoryInfo;
 import jp.co.seattle.library.rowMapper.BookDetailsInfoRowMapper;
 import jp.co.seattle.library.rowMapper.BookInfoRowMapper;
+import jp.co.seattle.library.rowMapper.HistoryRowMapper;
 
 /**
  * 書籍サービス
@@ -54,7 +56,23 @@ public class BooksService {
 
 		return getedBookList;
 	}
+	
+	/**
+	 * 貸出履歴リストを取得
+	 * 
+	 * @return 貸出リスト
+	 */
+	
+	public List<HistoryInfo> HistoryList() {
 
+		// TODO 取得したい情報を取得するようにSQLを修正
+		List<HistoryInfo> getedHistoryList = jdbcTemplate.query(
+				"SELECT lentbooks.bookid,books.id,books.title,lentbooks.lent_date,lentbooks.return_date FROM books left outer join lentbooks on books.id = lentbooks.bookid where lentbooks.lentid is not null or lentbooks.return_date is not null",	
+			new HistoryRowMapper());
+
+		return getedHistoryList;
+	}
+	
 	/**
 	 * 書籍IDに紐づく書籍詳細情報を取得する
 	 *
@@ -65,7 +83,7 @@ public class BooksService {
 
 		// JSPに渡すデータを設定する
 
-		String sql = "SELECT *,CASE WHEN lentid IS NULL THEN '貸し出し可' ELSE '貸し出し中' END AS status FROM books left outer join lentbooks on books.id = lentbooks.bookid where books.id ="+ bookId;
+		String sql = "SELECT *,CASE WHEN lent_date IS NULL THEN '貸し出し可' ELSE '貸し出し中' END AS status FROM books left outer join lentbooks on books.id = lentbooks.bookid where books.id ="+ bookId;
 		BookDetailsInfo bookDetailsInfo = jdbcTemplate.queryForObject(sql, new BookDetailsInfoRowMapper());
 		return bookDetailsInfo;
 	}
@@ -89,11 +107,21 @@ public class BooksService {
 
 		jdbcTemplate.update(sql);
 	}
-
+	/**
+	 * 
+	 * @param bookId
+	 */
 	public void deleteBook(int bookId) {
 
 		String sql = "DELETE FROM books WHERE id = " + bookId ;
 
+		jdbcTemplate.update(sql);
+	}
+	
+	public void deleteHistory(int bookId) {
+		
+		String  sql = "DELETE FROM lentbooks WHERE bookid = " + bookId ;	
+		
 		jdbcTemplate.update(sql);
 	}
 
