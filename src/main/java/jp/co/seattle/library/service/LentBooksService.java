@@ -27,7 +27,7 @@ public class LentBooksService {
 
 	public void lendBook(int bookId) {
 
-		String sql = "insert into lentbooks (bookid) select " + bookId + " where NOT EXISTS (select bookid from lentbooks where bookid=" + bookId + ")";
+		String sql = "insert into lentbooks (bookid,lent_date) select " + bookId + ",now() where NOT EXISTS (select bookid from lentbooks where bookid=" + bookId + ")";
 
 		jdbcTemplate.update(sql);
 	}
@@ -39,26 +39,13 @@ public class LentBooksService {
 	 */
 
 	public int lentBooks() {
-		String sql = "select count (bookid) from lentbooks";
+		String sql = "select count (lent_date) from lentbooks";
 		int lentBooks = jdbcTemplate.queryForObject(sql,int.class); 
 		return lentBooks;
 	}
 
 	/**
-	 * 返却した書籍を貸し出しテーブルから削除
-	 * 
-	 * @param bookId 書籍ID
-	 */
-
-	public void returnBook(int bookId) {
-
-		String sql = "delete from lentbooks where bookid =" + bookId;
-
-		jdbcTemplate.update(sql);
-	}
-
-	/**
-	 * 貸し出し中の書籍は削除できないようにする
+	 * 貸し出し中の書籍は削除できない条件
 	 * 
 	 * @param bookId 書籍ID
 	 * @return 書籍を削除したか確認
@@ -66,12 +53,91 @@ public class LentBooksService {
 
 	public int deleteBookCheck(int bookId) {
 		try {
-			String sql = "select bookid from lentbooks where bookid =" + bookId;
+			String sql = "select bookid from lentbooks where bookid =" + bookId +"and lentbooks.lent_date is not null";
 			int deleteCheck = jdbcTemplate.queryForObject(sql,int.class);
 			return deleteCheck;
 		}catch (Exception e) {
 			return 0;
 		}
 	}
+
+	/**
+	 * 返却済みの書籍を再度借りた場合に貸出日を表示
+	 * 
+	 * @param bookId
+	 * @return
+	 */
+
+	public int updateLent(int bookId) {
+		try {
+			String sql = "update lentbooks set lent_date = now(),return_date = null where bookid =" + bookId;
+			int updateLentdate = jdbcTemplate.queryForObject(sql,int.class);
+			return updateLentdate;
+		}catch(Exception e) {
+			return 0;
+		}
+	}
+
+	/**
+	 * 貸し出し済みの書籍を返した場合に返却日を表示
+	 * 
+	 * @param bookId
+	 * @return
+	 */
+
+	public int updateReturn(int bookId) {
+		try {
+			String sql = "update lentbooks set lent_date = null,return_date = now() where bookid =" + bookId;
+			int updateLentdate = jdbcTemplate.queryForObject(sql,int.class);
+			return updateLentdate;
+		}catch(Exception e) {
+			return 0;
+		}
+	}
+
+	/**
+	 * 初めて借りるときの条件
+	 * @param bookId
+	 * @return
+	 */
+
+	public int lentCheck (int bookId) {
+		try {
+			String sql = "select bookid from lentbooks where bookid =" + bookId;
+			int lentFirst = jdbcTemplate.queryForObject(sql,int.class);
+			return lentFirst;
+		}catch(Exception e) {
+			return 0;
+		}
+	}
+
+	/**
+	 *2回目以降借りれる条件
+	 * @param bookId
+	 * @return
+	 */
+
+	public int lentSecondCheck (int bookId) {
+
+			String sql = "SELECT COUNT(lent_date) FROM lentbooks WHERE bookid =" + bookId;	
+			int lentSecondCheck = jdbcTemplate.queryForObject(sql,int.class);
+			return lentSecondCheck;
+		
+	}
+
+
+	/**
+	 * 返せる条件
+	 * @param bookId
+	 * @return
+	 */
+
+	public int returnCheck (int bookId) {
+
+			String sql = "SELECT COUNT(return_date) FROM lentbooks WHERE bookid =" + bookId;;
+			int returnCheck = jdbcTemplate.queryForObject(sql,int.class);
+			return returnCheck;
+		}
+	
 
 }    

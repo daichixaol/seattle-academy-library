@@ -43,22 +43,33 @@ public class LendBookController {
 
 		logger.info("Welcome lent! The client locale is {}.", locale);  
 
-		//既に借りている書籍の数を確認
-		int beforelent = lentbooksService.lentBooks();
+		int lentCheck = lentbooksService.lentCheck(bookId);
+		int lentSecondCheck = lentbooksService.lentSecondCheck(bookId);
 
-		lentbooksService.lendBook(bookId);
-		model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
-
-		//借りるボタンを押した後に借りている書籍の数を確認
-		int afterlent = lentbooksService.lentBooks();      
-
-		if(beforelent == afterlent){
+		if (lentCheck == 0) {
+			lentbooksService.lendBook(bookId);
+		}else if (lentSecondCheck == 0){
+			lentbooksService.updateLent(bookId);
+		}else if (lentSecondCheck > 0){
 			model.addAttribute("alreadyLent","貸出済みです。");
-
 		}
 
-		return "details";
+	//既に借りている書籍の数を確認
+	//int beforelent = lentbooksService.lentBooks();
 
-	}
+
+	model.addAttribute("bookDetailsInfo",booksService.getBookInfo(bookId));  
+
+	//借りるボタンを押した後に借りている書籍の数を確認
+	//int afterlent = lentbooksService.lentBooks();      
+
+	//if(beforelent == afterlent){
+	//model.addAttribute("alreadyLent","貸出済みです。");
+
+
+
+	return "details";
+
+}
 
 }
